@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Parameters:
+  Stage: 
+    Type: String
+    Default: dev
+    AllowedValues: 
+      - dev
+      - ppd
+      - prd
+    Description: Enter stage name
+  Env:
+    Type: String
+    Default: default
+    Description: Enter env name
+
+Resources:
+  twDynamoDBWriter:    
+    Type: 'AWS::Serverless::Function'    
+    Properties:
+      FunctionName: !Sub ${Stage}--${Env}--tw--dynamoDBWriter
+      Handler: dist/index.write
+      Runtime: nodejs6.10
+      CodeUri: ../
+      MemorySize: 128
+      Timeout: 3
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:PutItem
+              Resource:
+                Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBArn"

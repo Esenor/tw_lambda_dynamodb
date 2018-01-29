@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Parameters:
+  Stage: 
+    Type: String
+    Default: dev
+    AllowedValues: 
+      - dev
+      - ppd
+      - prd
+    Description: Enter stage name
+  Env:
+    Type: String
+    Default: default
+    Description: Enter env name
+
+Resources:
+  twDynamoDB:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: customer_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: customer_id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
+      TableName: !Sub "${Stage}--${Env}--tw--customer"
+
+Outputs:
+  TwArnDynamoDB:
+    Value: !GetAtt twDynamoDB.Arn
+    Export:
+      Name: !Sub "${Stage}--${Env}--tw--DynamoDBArn"
