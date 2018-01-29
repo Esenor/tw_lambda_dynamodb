@@ -57,7 +57,16 @@ Resources:
                 - dynamodb:GetShardIterator
                 - dynamodb:ListStreams
               Resource:
-                Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBArn"
+                - Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBArn"
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+              Resource:
+                - !Join
+                  - ''
+                  - - Fn::ImportValue:
+                        !Sub "${Stage}--${Env}--tw--BucketBArn"
+                    - '/records/*'
       Events:
         Stream:
           Type: DynamoDB
@@ -66,3 +75,7 @@ Resources:
               Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBStreamArn"
             BatchSize: 20
             StartingPosition: LATEST
+      Environment:
+        Variables:
+          TW_BUCKET_NAME:
+            Fn::ImportValue: !Sub "${Stage}--${Env}--tw--BucketBName"

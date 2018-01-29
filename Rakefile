@@ -3,7 +3,7 @@ S3_BUCKET = "tw--dev--"
 namespace :infrastructure do
   # ------------------------------------------------------------------------------
   # Deploy the infrastructure
-  desc "Deploy infrastructure"
+  desc "Deploy infrastructure, need a NAME as param      # rake infrastructure:deploy NAME"
   task :deploy do 
     ARGV.each { |a| task a.to_sym do ; end }
     if (ARGV.size == 2) 
@@ -19,7 +19,7 @@ end
 namespace :function do
   # ------------------------------------------------------------------------------
   # Assemble
-  desc "Assemble"
+  desc "Assemble and build the functions                 # rake function:assemble"
   task :assemble do
       sh "npm i"
       sh "npm run build"
@@ -27,7 +27,7 @@ namespace :function do
 
   # ------------------------------------------------------------------------------
   # Package and upload the function
-  desc "Package function"
+  desc "Package function, need a NAME as param           # rake function:package NAME"
   task :package do
     ARGV.each { |a| task a.to_sym do ; end }
     if (ARGV.size == 2) 
@@ -41,7 +41,7 @@ namespace :function do
 
   # ------------------------------------------------------------------------------
   # Deploy the function
-  desc "Deploy function"
+  desc "Deploy function, need a NAME as param            # rake function:deploy NAME"
   task :deploy do 
     ARGV.each { |a| task a.to_sym do ; end }
     if (ARGV.size == 2) 

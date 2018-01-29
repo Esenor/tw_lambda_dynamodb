@@ -38,12 +38,12 @@ Resources:
       TableName: !Sub "${Stage}--${Env}--tw--customer"
 
 Outputs:
-  TwArnDynamoDB:
+  TwStreamArnDynamoDB:
     Value: !GetAtt twDynamoDB.StreamArn
     Export:
       Name: !Sub "${Stage}--${Env}--tw--DynamoDBStreamArn"
 
-  TwStreamArnDynamoDB:
+  TwArnDynamoDB:
     Value: !GetAtt twDynamoDB.Arn
     Export:
       Name: !Sub "${Stage}--${Env}--tw--DynamoDBArn"
@@ -52,3 +52,13 @@ Outputs:
     Value: !Sub "${Stage}--${Env}--tw--customer"
     Export:
       Name: !Sub "${Stage}--${Env}--tw--DynamoDBTableName"
+  
+  TwArnBucket:
+    Value: !GetAtt twBucket.Arn
+    Export:
+      Name: !Sub "${Stage}--${Env}--tw--BucketBArn"
+  
+  TwBucketName:
+    Value: !Sub "tw--${Stage}--${Env}/records"
+    Export:
+      Name: !Sub "${Stage}--${Env}--tw--BucketBName"
