@@ -2,11 +2,10 @@
 
 ## Infrastructure
 
-    rake infrastructure:package
     rake infrastructure:deploy {Name}
 
 ## Function
 
     rake function:assemble
-    rake function:package
+    rake function:package {Name}
     rake function:deploy {Name}

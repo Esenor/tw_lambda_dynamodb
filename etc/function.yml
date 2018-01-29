@@ -64,5 +64,5 @@ Resources:
           Properties:
             Stream:
               Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBStreamArn"
-            BatchSize: 100
+            BatchSize: 20
             StartingPosition: LATEST
