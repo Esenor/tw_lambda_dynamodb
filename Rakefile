@@ -28,13 +28,13 @@ namespace :function do
   task :assemble do
       sh "npm i"
       sh "npm run build"
-      sh "npm prune --production"
   end
 
   # ------------------------------------------------------------------------------
   # Package and upload the function
   desc "Package function"
   task :package do
+      sh "npm prune --production"
       sh "aws cloudformation package --template-file ./etc/function.yml --region eu-west-3 --s3-bucket dojo.lambda --output-template-file ./etc/function-packaged.yml"
   end
 
