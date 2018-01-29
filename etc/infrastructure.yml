@@ -34,6 +34,11 @@ Resources:
 
 Outputs:
   TwArnDynamoDB:
+    Value: !GetAtt twDynamoDB.StreamArn
+    Export:
+      Name: !Sub "${Stage}--${Env}--tw--DynamoDBStreamArn"
+
+  TwStreamArnDynamoDB:
     Value: !GetAtt twDynamoDB.Arn
     Export:
       Name: !Sub "${Stage}--${Env}--tw--DynamoDBArn"

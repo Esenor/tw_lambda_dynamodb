@@ -16,7 +16,7 @@ Parameters:
     Description: Enter env name
 
 Resources:
-  twDynamoDBWriter:    
+  twDynamoDBWriter:   
     Type: 'AWS::Serverless::Function'    
     Properties:
       FunctionName: !Sub ${Stage}--${Env}--tw--dynamoDBWriter
@@ -37,3 +37,32 @@ Resources:
         Variables:
           TW_DYNAMODB_TABLENAME:
             Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBTableName"
+
+  twDynamoDBReceiver:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub ${Stage}--${Env}--tw--dynamoDBReceiver
+      Handler: dist/dynamoReceiver.receive
+      Runtime: nodejs6.10
+      CodeUri: ../
+      MemorySize: 128
+      Timeout: 3
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:DescribeStream
+                - dynamodb:GetRecords
+                - dynamodb:GetShardIterator
+                - dynamodb:ListStreams
+              Resource:
+                Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBArn"
+      Events:
+        Stream:
+          Type: DynamoDB
+          Properties:
+            Stream:
+              Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBStreamArn"
+            BatchSize: 100
+            StartingPosition: LATEST
