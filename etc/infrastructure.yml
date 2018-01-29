@@ -37,3 +37,8 @@ Outputs:
     Value: !GetAtt twDynamoDB.Arn
     Export:
       Name: !Sub "${Stage}--${Env}--tw--DynamoDBArn"
+
+  TwTableNameDynamoDB:
+    Value: !Sub "${Stage}--${Env}--tw--customer"
+    Export:
+      Name: !Sub "${Stage}--${Env}--tw--DynamoDBTableName"

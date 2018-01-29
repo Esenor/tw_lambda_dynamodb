@@ -20,7 +20,7 @@ Resources:
     Type: 'AWS::Serverless::Function'    
     Properties:
       FunctionName: !Sub ${Stage}--${Env}--tw--dynamoDBWriter
-      Handler: dist/index.write
+      Handler: dist/dynamoWriter.write
       Runtime: nodejs6.10
       CodeUri: ../
       MemorySize: 128
@@ -33,3 +33,7 @@ Resources:
                 - dynamodb:PutItem
               Resource:
                 Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBArn"
+      Environment:
+        Variables:
+          TW_DYNAMODB_TABLENAME:
+            Fn::ImportValue: !Sub "${Stage}--${Env}--tw--DynamoDBTableName"
