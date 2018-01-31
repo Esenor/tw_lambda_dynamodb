@@ -39,12 +39,13 @@ module.exports.write = (event, context, callback) => {
   // Put customer record inside DynamoDB
   dynamoDBClient.put(params, function (err, data) {
     if (err) {
-      console.error('Unable to add the customer', JSON.stringify(err, null, 2))
+      console.error('Unable to add the customer in DynamoDB', JSON.stringify(err, null, 2))
     } else {
-      console.log('Customer PutItem succeeded')
+      console.log('Customer Put inside DynamoDB succeeded')
     }
   })
 
   // Return customer to consumer
+  console.log('Customer added', customer)
   callback(null, {msg: 'Customer added', customer: customer})
 }
